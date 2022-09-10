@@ -16,6 +16,10 @@
     color: #eee;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
+.card-text p:last-child {
+    color: #A27B5C;
+    text-decoration: underline;
+}
 /* advance card */
 .belum, #belum, #sudah {
     background-color: transparent;
@@ -27,13 +31,14 @@
 #sudah .card {
     background-color: transparent;
     color: inherit;
+    border-color: #31364c;
     box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
 #sudah .card .card-text {
     background-color: transparent;
 }
 #sudah .card p:first-child {
-    text-decoration: line-through;
+    color: #31364c;
 }
 #sudah .card-btn {
     background-color: transparent;

@@ -29,49 +29,38 @@
                 </div>
             </div>
         </div>
-        <!-- form -->
-        <div class="container form">
-            <form id="form" method="post" action="/">
-                <input type="text" id="tugas" placeholder="Judul Tugas" name="tugas" value="haha" required>
-                <input type="text" id="deskripsi" placeholder="Deskripsi" autocomplete="off" name="deskripsi">
-                <div class="tanggal" id="dateInput">
-                    <input type="date" id="mulai" name="awal">
-                    <input type="date" id="tanggal" name="akhir">
-                </div>
-                <div class="color-container">
-                    <input type="color" id="color" value="#31364c" name="color">
-                </div>
-            </form>
-            <div id="minimize">
-                <img src="img/caret-down-solid.svg">
-            </div>
-        </div>
     </header>
     
     <!-- body -->
     <section>
-        <div id="todoapp"></div>
-        <div class="container" id="proggress">
-            <div class="proggressBar">
-                <div id="valueBar"></div>
-                <div id="valueBarRed"></div>
-            </div>
-        </div>
         <div class="container belum" id="container-belum">
-            <div id="copyArea"></div>
-            <div id="copyBtn">
-                <p id="CopyState"></p>
-                <img src="img/copy-solid.svg" alt="">
+            <p class="main-menu">Main menu</p>
+            <div id="belum">
+                <a href="https://mcwooden.github.io/todo/">
+                    <div class="card">
+                        <div class="card-text">
+                            <p>Your main task</p>
+                            <p class="text-time">https://mcwooden.github.io/todo/</p>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <div id="belum"></div>
-            <br>
-            <div id="sudah"></div>
+            <div id="sudah">
+                <a href="https://mcwooden.github.io/todo/x6" style="text-decoration: none;">
+                    <div class="card">
+                        <div class="card-text">
+                            <p>X-6 main task</p>
+                            <p class="text-time">https://mcwooden.github.io/todo/x6</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- footer -->
     <footer id="footer">
-        <p><a target="_blank" href="https://huddin.showwcase.com/">McWooden</a> | v2.0</p>
+        <p><a target="_blank" href="https://huddin.showwcase.com/">McWooden</a> | Main menu</p>
     </footer>
     <nav id="nav">
         <div class="link">
@@ -87,10 +76,5 @@
     <script src="js/script.js"></script>
     <script src="js/createElement.js"></script>
     <script src="js/storage.js"></script>
-    <script>
-        fetch('http://localhost:3000/x6')
-        .then(response => response.json())
-        .then()
-    </script>
 </body>
 </html>

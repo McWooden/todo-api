@@ -29,6 +29,8 @@ const Task = mongoose.model('Task', {
     selesai: Boolean
 })
 
+app.get('/', (req, res) => res.redirect('https://mcwooden.github.io/todo/'))
+
 // create object
 app.get('/x6', (req, res) => {
     Task.find({}, (err, tasks) => {
