@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoApp V2.0</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/card.css">
+    <link rel="stylesheet" href="css/alert.css">
+    <link rel="shortcut icon" href="img/favico.png" type="image/x-icon">
+</head>
+<body>
+    <div class="quotes" id="trivia">
+        <p id="quote"></p>
+        <p id="author"></p>
+    </div>
+    <!-- header -->
+    <header id="header">
+        <p id="greet"></p>
+        <div class="today container" id="today">
+            <p id="dateNow"></p>
+            <div class="dateNowDetail">
+                <p id="day"></p>
+                <div>
+                    <span id="month"></span> <span id="year"></span>
+                </div>
+            </div>
+        </div>
+        <!-- form -->
+        <div class="container form">
+            <form id="form" method="post" action="/">
+                <input type="text" id="tugas" placeholder="Judul Tugas" name="tugas" value="haha" required>
+                <input type="text" id="deskripsi" placeholder="Deskripsi" autocomplete="off" name="deskripsi">
+                <div class="tanggal" id="dateInput">
+                    <input type="date" id="mulai" name="awal">
+                    <input type="date" id="tanggal" name="akhir">
+                </div>
+                <div class="color-container">
+                    <input type="color" id="color" value="#31364c" name="color">
+                </div>
+            </form>
+            <div id="minimize">
+                <img src="img/caret-down-solid.svg">
+            </div>
+        </div>
+    </header>
+    
+    <!-- body -->
+    <section>
+        <div id="todoapp"></div>
+        <div class="container" id="proggress">
+            <div class="proggressBar">
+                <div id="valueBar"></div>
+                <div id="valueBarRed"></div>
+            </div>
+        </div>
+        <div class="container belum" id="container-belum">
+            <div id="copyArea"></div>
+            <div id="copyBtn">
+                <p id="CopyState"></p>
+                <img src="img/copy-solid.svg" alt="">
+            </div>
+            <div id="belum"></div>
+            <br>
+            <div id="sudah"></div>
+        </div>
+    </section>
+
+    <!-- footer -->
+    <footer id="footer">
+        <p><a target="_blank" href="https://huddin.showwcase.com/">McWooden</a> | v2.0</p>
+    </footer>
+    <nav id="nav">
+        <div class="link">
+            <a href="#container-belum"><img src="img/check-solid.svg"></a>
+            <a href="#header"><img src="img/angle-up-solid.svg" alt=""></a>
+            <div>
+                <button id="btnUpdate"><img src="img/floppy-disk-solid.svg"></button>
+                <button type="submit" form="form" id="buttonToSubmit"><img src="img/plus-solid.svg" alt="" id="submitImg"></button>
+            </div>
+        </div>
+    </nav>
+    <div id="alert"></div>
+    <script src="js/script.js"></script>
+    <script src="js/createElement.js"></script>
+    <script src="js/storage.js"></script>
+    <script>
+        fetch('http://localhost:3000/x6')
+        .then(response => response.json())
+        .then()
+    </script>
+</body>
+</html>

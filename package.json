@@ -1,0 +1,20 @@
+{
+  "name": "todov2",
+  "version": "1.0.0",
+  "description": "v1.18.2\r     `pop up` menampilkan informasi aksi seperti menambah, menghapus, mengedit, menyimpan diatas kiri layar",
+  "main": "script.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.4"
+  }
+}
