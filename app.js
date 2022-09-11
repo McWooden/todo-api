@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 const port = process.env.PORT || 3000
 
@@ -9,6 +10,7 @@ const mongoose = require('mongoose')
 mongoose.connect(`mongodb+srv://udin:udin123@cluster0.5ieghid.mongodb.net/todoapp`)
 
 // middleware
+app.use(cors())
 app.use(express.static('public'))
 app.use(bodyParser.json())
 
