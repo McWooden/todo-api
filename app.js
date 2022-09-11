@@ -49,7 +49,7 @@ app.post('/x6', (req, res) => {
     })
 
     task.save()
-    res.send(req)
+    res.send(req.body)
 })
 
 app.listen(port, () => {
