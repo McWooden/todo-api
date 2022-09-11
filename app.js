@@ -13,7 +13,7 @@ mongoose.connect(`mongodb+srv://udin:udin123@cluster0.5ieghid.mongodb.net/todoap
 app.use(cors())
 app.use(express.static('public'))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: true}))
 
 // schema
 const Task = mongoose.model('Task', {
