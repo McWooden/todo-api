@@ -56,9 +56,9 @@ app.put('/x6/reverse', async (req, res) => {
     res.send('berhasil dibalik')
 })
 // delete
-app.get('/x6/:id', async (req, res) => {
+app.delete('/x6/:id', async (req, res) => {
     await Task.findByIdAndDelete(req.params.id)
-    res.redirect('/x6')
+    res.send('item telah dihapus')
 })
 
 // listen
