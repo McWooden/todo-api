@@ -14,6 +14,7 @@ app.use(cors())
 app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.json({limit: '1mb'}))
 
 // schema
 const Task = mongoose.model('Task', {
@@ -25,19 +26,7 @@ const Task = mongoose.model('Task', {
     selesai: Boolean
 })
 
-// request
-app.get('/', (req, res) => res.redirect('https://mcwooden.github.io/todo/'))
-
-// create object
-app.get('/x6', (req, res) => {
-    Task.find({}, (err, tasks) => {
-        res.send(tasks)
-    })
-})
-app.get('/x6/:id', async (req, res) => {
-    await Task.findByIdAndDelete(req.params.id)
-    res.redirect('/x6')
-})
+// create
 app.post('/x6', (req, res) => {
     let task = new Task({
         tugas: req.body.tugas,
@@ -51,7 +40,28 @@ app.post('/x6', (req, res) => {
     task.save()
     res.send(req.body)
 })
+// read
+app.get('/x6', (req, res) => {
+    Task.find({}, (err, tasks) => {
+        res.send(tasks)
+    })
+})
+// update
+app.put('/x6/reverse', async (req, res) => {
+    await Task.updateOne({_id: req.body.id}, {
+        $set: {
+            selesai: !req.body.selesai
+        }
+    })
+    res.send('berhasil dibalik')
+})
+// delete
+app.get('/x6/:id', async (req, res) => {
+    await Task.findByIdAndDelete(req.params.id)
+    res.redirect('/x6')
+})
 
+// listen
 app.listen(port, () => {
     console.log(`App listening on http://localhost:${port}/`)
 })
