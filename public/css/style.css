@@ -43,6 +43,7 @@ section {
 .main-menu {
     text-align: center;
     font-size: 2em;
+    color: #2b2f42;
 }
 /* copy button */
 #copyBtn {

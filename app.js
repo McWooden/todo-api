@@ -47,6 +47,30 @@ app.get('/x6', (req, res) => {
     })
 })
 // update
+app.put('/x6', async (req, res) => {
+    await Task.updateOne({_id: req.body.id}, { 
+        $set: {
+            tugas: req.body.tugas,
+            deskripsi: req.body.deskripsi,
+            color: req.body.color,
+            mulai: req.body.mulai,
+            berakhir: req.body.berakhir,
+        }
+    })
+    console.log(req.body)
+    res.send('berhasil diubah cuy')
+})
+// delete
+app.delete('/x6/:id', async (req, res) => {
+    await Task.findByIdAndDelete(req.params.id)
+    res.send('item telah dihapus')
+})
+// load task
+app.get('/x6/:id', async (req, res) => {
+    const task = await Task.findById(req.params.id)
+    res.send(task)
+})
+// reverse
 app.put('/x6/reverse', async (req, res) => {
     await Task.updateOne({_id: req.body.id}, {
         $set: {
@@ -54,11 +78,6 @@ app.put('/x6/reverse', async (req, res) => {
         }
     })
     res.send('berhasil dibalik')
-})
-// delete
-app.delete('/x6/:id', async (req, res) => {
-    await Task.findByIdAndDelete(req.params.id)
-    res.send('item telah dihapus')
 })
 
 // listen

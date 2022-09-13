@@ -37,6 +37,9 @@
 #sudah .card .card-text {
     background-color: transparent;
 }
+#belum .card p:first-child {
+    text-decoration: underline;
+}
 #sudah .card p:first-child {
     color: #31364c;
 }
