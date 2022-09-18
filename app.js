@@ -23,6 +23,7 @@ const Task = mongoose.model('Task', {
     color: String,
     mulai: String,
     berakhir: String,
+    by: String,
     selesai: Boolean
 })
 
@@ -33,10 +34,12 @@ app.get('/x6', (req, res) => {
     })
 })
 
+// return res.send({msg: })
+
 // create
 app.post('/x6', (req, res) => {
     if (!admin.hasOwnProperty(req.body.token)) {
-        return res.send(`${req.body.token} bukan admin`)
+        return res.send({msg: `${req.body.token} bukan admin`})
     } else {
         let task = new Task({
             tugas: req.body.tugas,
@@ -47,13 +50,13 @@ app.post('/x6', (req, res) => {
             selesai: false
         })
         task.save()
-        res.send(`item telah ditambah oleh ${admin[req.body.token]}`)
+        res.send({msg: `item telah ditambah oleh ${admin[req.body.token]}`})
     }
 })
 // update
 app.put('/x6', async (req, res) => {
     if (!admin.hasOwnProperty(req.body.token)) {
-        return res.send(`${req.body.token} bukan admin`)
+        return res.send({msg: `${req.body.token} bukan admin`})
     } else {
         await Task.updateOne({_id: req.body.id}, { 
             $set: {
@@ -64,16 +67,16 @@ app.put('/x6', async (req, res) => {
                 berakhir: req.body.berakhir,
             }
         })
-        res.send(`item telah diubah oleh ${admin[req.body.token]}`)
+        res.send({msg: `item telah diubah oleh ${admin[req.body.token]}`})
     }    
 })
 // delete
 app.delete('/x6/:id', async (req, res) => {
     if (!admin.hasOwnProperty(req.body.token)) {
-        return res.send(`${req.body.token} bukan admin`)
+        return res.send({msg: `${req.body.token} bukan admin`})
     } else {
         await Task.findByIdAndDelete(req.params.id)
-        res.send(`item telah dihapus oleh ${admin[req.body.token]}`)
+        res.send({msg: `item telah dihapus oleh ${admin[req.body.token]}`})
     }
 })
 // load task
@@ -84,14 +87,14 @@ app.get('/x6/:id', async (req, res) => {
 // reverse
 app.put('/x6/reverse', async (req, res) => {
     if (!swapper.hasOwnProperty(req.body.token)) {
-        return res.send(`password "${req.body.token}" tidak valid`)
+        return res.send({msg: `password "${req.body.token}" tidak valid`})
     } else {
         await Task.updateOne({_id: req.body.id}, {
             $set: {
                 selesai: !req.body.selesai
             }
         })
-        res.send(`berhasil dibalik oleh ${swapper[req.body.token]}`)
+        return res.send({msg: `berhasil dibalik oleh ${swapper[req.body.token]}`})
     }
 })
 
