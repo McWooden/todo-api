@@ -26,18 +26,11 @@ const Task = mongoose.model('Task', {
     selesai: Boolean
 })
 
-// roles
-const swapper = {
-    akuudin: 'Owner',
-    imadmin: 'Admin',
-    kelasx6: 'X-6'
-}
-const admin = {
-    akuudin: 'Owner',
-    imadmin: 'Admin',
-}
-app.put('/x6/getTitle', (req, res) => {
-    res.send({title: title[req.body.pass] || 'Guest'})
+// read
+app.get('/x6', (req, res) => {
+    Task.find({}, (err, tasks) => {
+        res.send(tasks)
+    })
 })
 
 // create
@@ -56,12 +49,6 @@ app.post('/x6', (req, res) => {
         task.save()
         res.send(`item telah ditambah oleh ${admin[req.body.token]}`)
     }
-})
-// read
-app.get('/x6', (req, res) => {
-    Task.find({}, (err, tasks) => {
-        res.send(tasks)
-    })
 })
 // update
 app.put('/x6', async (req, res) => {
@@ -104,8 +91,22 @@ app.put('/x6/reverse', async (req, res) => {
                 selesai: !req.body.selesai
             }
         })
-        res.send(`berhasil dibalik oleh ${title[req.body.token]}`)
+        res.send(`berhasil dibalik oleh ${swapper[req.body.token]}`)
     }
+})
+
+// roles
+const swapper = {
+    akuudin: 'Owner',
+    imadmin: 'Admin',
+    kelasx6: 'X-6'
+}
+const admin = {
+    akuudin: 'Owner',
+    imadmin: 'Admin',
+}
+app.put('/x6/getTitle', (req, res) => {
+    res.send({title: title[req.body.pass] || 'Guest'})
 })
 
 // listen
