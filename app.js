@@ -80,9 +80,13 @@ app.delete('/x6/:id', async (req, res) => {
     }
 })
 // load task
-app.get('/x6/:id', async (req, res) => {
-    const task = await Task.findById(req.params.id)
-    res.send(task)
+app.put('/x6/:id', async (req, res) => {
+    if (!admin.hasOwnProperty(req.body.token)) {
+        return res.send({msg: `${req.body.token} bukan admin`})
+    } else {
+        const task = await Task.findById(req.params.id)
+        res.send(task)
+    }
 })
 // reverse
 app.put('/x6/reverse', async (req, res) => {
