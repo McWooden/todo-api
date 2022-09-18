@@ -91,18 +91,8 @@ app.delete('/x6/:id', async (req, res) => {
         res.send({msg: `item telah dihapus oleh ${admin[req.body.token]}`})
     }
 })
-// load task
-app.put('/x6/:id', async (req, res) => {
-    if (!admin.hasOwnProperty(req.body.token)) {
-        return res.send({msg: `${req.body.token} bukan admin`})
-    } else {
-        const task = await Task.findById(req.params.id)
-        res.send(task)
-    }
-})
 // reverse
 app.put('/x6/reverse', async (req, res) => {
-    
     if (!swapper.hasOwnProperty(req.body.token)) {
         return res.send({msg: `password "${req.body.token}" tidak valid`})
     } else {
@@ -112,6 +102,15 @@ app.put('/x6/reverse', async (req, res) => {
             }
         })
         return res.send({msg: `berhasil dibalik oleh ${swapper[req.body.token]}`})
+    }
+})
+// load task
+app.put('/x6/:id', async (req, res) => {
+    if (!admin.hasOwnProperty(req.body.token)) {
+        return res.send({msg: `${req.body.token} bukan admin`})
+    } else {
+        const task = await Task.findById(req.params.id)
+        res.send(task)
     }
 })
 
