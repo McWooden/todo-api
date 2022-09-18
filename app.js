@@ -27,14 +27,26 @@ const Task = mongoose.model('Task', {
     selesai: Boolean
 })
 
+// roles
+const swapper = {
+    akuudin: 'Owner',
+    imadmin: 'Admin',
+    kelasx6: 'X-6'
+}
+const admin = {
+    akuudin: 'Owner',
+    imadmin: 'Admin',
+}
+app.put('/x6/title', (req, res) => {
+    res.send({title: swapper[req.body.pass] || 'Guest'})
+})
+
 // read
 app.get('/x6', (req, res) => {
     Task.find({}, (err, tasks) => {
         res.send(tasks)
     })
 })
-
-// return res.send({msg: })
 
 // create
 app.post('/x6', (req, res) => {
@@ -100,20 +112,6 @@ app.put('/x6/reverse', async (req, res) => {
         })
         return res.send({msg: `berhasil dibalik oleh ${swapper[req.body.token]}`})
     }
-})
-
-// roles
-const swapper = {
-    akuudin: 'Owner',
-    imadmin: 'Admin',
-    kelasx6: 'X-6'
-}
-const admin = {
-    akuudin: 'Owner',
-    imadmin: 'Admin',
-}
-app.put('/x6/title', (req, res) => {
-    res.send({title: swapper[req.body.pass] || 'Guest'})
 })
 
 // listen
