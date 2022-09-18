@@ -106,7 +106,7 @@ const admin = {
     imadmin: 'Admin',
 }
 app.put('/x6/getTitle', (req, res) => {
-    res.send({title: title[req.body.pass] || 'Guest'})
+    res.send({title: swapper[req.body.pass] || 'Guest'})
 })
 
 // listen
