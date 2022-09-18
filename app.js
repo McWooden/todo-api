@@ -105,7 +105,7 @@ const admin = {
     akuudin: 'Owner',
     imadmin: 'Admin',
 }
-app.put('/x6/getTitle', (req, res) => {
+app.put('/x6/title', (req, res) => {
     res.send({title: swapper[req.body.pass] || 'Guest'})
 })
 
