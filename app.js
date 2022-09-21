@@ -59,6 +59,7 @@ app.post('/x6', (req, res) => {
             color: req.body.color,
             mulai: req.body.mulai,
             berakhir: req.body.berakhir,
+            by: req.body.by,
             selesai: false
         })
         task.save()
