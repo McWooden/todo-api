@@ -26,6 +26,14 @@ const Task = mongoose.model('Task', {
     by: String,
     selesai: Boolean
 })
+const Twit = mongoose.model('Twit', {
+    nickname: String,
+    isi: String,
+    title: String,
+    date: String,
+    time: String,
+    color: String
+})
 
 // roles
 const swapper = {
@@ -41,10 +49,15 @@ app.put('/x6/title', (req, res) => {
     res.send({title: swapper[req.body.pass] || 'Guest'})
 })
 
-// read
+// find all
 app.get('/x6', (req, res) => {
-    Task.find({}, (err, tasks) => {
-        res.send(tasks)
+    Task.find({}, (err, task) => {
+        res.send(task)
+    })
+})
+app.get('/x6/twit', (req, res) => {
+    Twit.find({}, (err, twit) => {
+        res.send(twit)
     })
 })
 
@@ -66,6 +79,23 @@ app.post('/x6', (req, res) => {
         res.send({msg: `item telah ditambah oleh ${admin[req.body.token]}`})
     }
 })
+app.post('/x6/twit', (req, res) => {
+    if (!admin.hasOwnProperty(req.body.token)) {
+        return res.send({msg: `${req.body.token} bukan admin`})
+    } else {
+        let twit = new Twit({
+            nickname: req.body.nickname,
+            title: req.body.title,
+            isi: req.body.isi,
+            date: req.body.date,
+            time: req.body.time,
+            color: req.body.color
+        })
+        twit.save()
+        res.send({msg: `Twit telah ditambah oleh ${admin[req.body.token]}`})
+    }
+})
+
 // update
 app.put('/x6', async (req, res) => {
     if (!admin.hasOwnProperty(req.body.token)) {
@@ -83,6 +113,7 @@ app.put('/x6', async (req, res) => {
         res.send({msg: `item telah diubah oleh ${admin[req.body.token]}`})
     }    
 })
+
 // delete
 app.delete('/x6/:id', async (req, res) => {
     if (!admin.hasOwnProperty(req.body.token)) {
@@ -92,6 +123,7 @@ app.delete('/x6/:id', async (req, res) => {
         res.send({msg: `item telah dihapus oleh ${admin[req.body.token]}`})
     }
 })
+
 // reverse
 app.put('/x6/reverse', async (req, res) => {
     if (!swapper.hasOwnProperty(req.body.token)) {
@@ -105,7 +137,8 @@ app.put('/x6/reverse', async (req, res) => {
         return res.send({msg: `berhasil dibalik oleh ${swapper[req.body.token]}`})
     }
 })
-// load task
+
+// find task
 app.put('/x6/:id', async (req, res) => {
     if (!admin.hasOwnProperty(req.body.token)) {
         return res.send({msg: `${req.body.token} bukan admin`})
@@ -115,7 +148,8 @@ app.put('/x6/:id', async (req, res) => {
     }
 })
 
-// listen
+
+
 app.listen(port, () => {
     console.log(`App listening on http://localhost:${port}/`)
 })
