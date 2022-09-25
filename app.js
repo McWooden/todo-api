@@ -29,6 +29,7 @@ const Task = mongoose.model('Task', {
 const Twit = mongoose.model('Twit', {
     nickname: String,
     isi: String,
+    tag: String,
     title: String,
     date: String,
     time: String,
@@ -45,6 +46,9 @@ const admin = {
     akuudin: 'Owner',
     imadmin: 'Admin',
 }
+// more option
+const monthName = ['Januari','Februari','Maret','April','Mei','Juni','Juni','Agustus','September','Oktober','November','November']
+
 app.put('/x6/title', (req, res) => {
     res.send({title: swapper[req.body.pass] || 'Guest'})
 })
@@ -87,9 +91,10 @@ app.post('/x6/twit', (req, res) => {
             nickname: req.body.nickname,
             title: req.body.title,
             isi: req.body.isi,
-            date: req.body.date,
-            time: req.body.time,
-            color: req.body.color
+            tag: req.body.tag,
+            date: `${new Date().getDate()} ${monthName[new Date().getMonth()]}`,
+            time: `${new Date().getHours()}.${new Date().getMinutes()}`,
+            color: '#31364c'
         })
         twit.save()
         res.send({msg: `Twit telah ditambah oleh ${admin[req.body.token]}`})
