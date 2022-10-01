@@ -3,7 +3,6 @@ const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const passport = require('passport');
-const FacebookStrategy = require('passport-facebook');
 const session = require('express-session')
 require('./auth')
 
@@ -62,7 +61,6 @@ const UserSchema = mongoose.model('User', {
     password: String,
     rank: String
 })
-
 // roles
 const swapper = {
     akuudin: 'Owner',
