@@ -111,6 +111,10 @@ app.post('/create-account', (req, res) => {
     user.save()
     res.send({msg: 'akun selesai dibuat'})
 })
+app.put('/get-my-profile', async (req, res) => {
+    const user = await UserSchema.findOne({nickname: req.body.nickname, password: req.body.password})
+    res.send(user)
+})
 
 // find all
 app.get('/x6', (req, res) => {
