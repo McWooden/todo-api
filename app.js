@@ -109,7 +109,7 @@ app.post('/create-account', (req, res) => {
         rank: 'Member'
     })
     user.save()
-    res.send('akun selesai dibuat')
+    res.send({msg: 'akun selesai dibuat'})
 })
 
 // find all
