@@ -90,7 +90,7 @@ app.get('/protected', isLoggedin, (req, res) => {
 app.get('/auth/failure', (req, res) => {
     res.send('Somenthing wrong...')
 })
-app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login', successRedirect: '/protected' }))
+app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/google', successRedirect: '/protected' }))
 app.get('/find-account/:nickname', async (req, res) => {
     const user = await UserSchema.findOne({nickname: req.params.nickname})
     if (user) {

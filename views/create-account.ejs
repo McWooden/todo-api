@@ -120,9 +120,7 @@
                 const options = {
                     method: 'POST',
                     body: JSON.stringify(data),
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
+                    headers: {'Content-Type': 'application/json',}
                 }
 
                 await fetch(`https://x6todo.herokuapp.com/create-account`, options).then(res => res.json()).then(res => {
