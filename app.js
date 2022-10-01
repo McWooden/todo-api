@@ -109,7 +109,7 @@ app.post('/create-account', (req, res) => {
         rank: 'Member'
     })
     user.save()
-    res.redirect('https://mcwooden.github.io/todo/profile')
+    res.send('akun selesai dibuat')
 })
 
 // find all
