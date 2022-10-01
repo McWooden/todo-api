@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Create Account</title>
+    <link rel="stylesheet" href="https://mcwooden.github.io/todo/style.css">
+    <link rel="stylesheet" href="https://mcwooden.github.io/todo/css/card.css">
+    <link rel="shortcut icon" href="https://mcwooden.github.io/todo/img/favico.png" type="image/x-icon">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #383e57;
+        }
+        .container {
+            box-shadow: none;
+            gap: 1em;
+            width: 100%;
+        }
+        .card {
+            padding: .5em;
+            background-color: #2b2f42;
+            border: none;
+            margin: 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: .25em;
+            background-color: #2b2f42;
+            padding: .5em;
+            border-radius: 5px;
+            color: #eee;
+            width: 100%;
+        }
+        form input {
+            border: none;
+            background-color: #242736;
+            color: #eee;
+            outline: none;
+            padding: .25em;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        form img {
+            width: 3em;
+            border-radius: 50px;
+        }
+        .profile {
+            display: flex;
+            gap: .5em;
+            margin-bottom: 10px;
+            background-color: #242736;
+            padding: .25em;
+            border-radius: 5px;
+        }
+        .profile div p:last-child {
+            font-weight: 300;
+            color: #acacac;
+        }
+        #status {
+            color: #acacac;
+        }
+        .match {
+            margin-top: 10px;
+            font-size: .8em;
+        }
+        form input[type="submit"] {
+            background-color: #277BC0;
+            cursor: pointer;
+        }
+        @media screen and (min-width: 512px) {
+            .container {
+                width: 512px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="form">
+            <div class="profile">
+                <img src="<%= data.picture %>">
+                <div>
+                    <p><%= data.name %></p>
+                    <p>Member</p>
+                </div>
+            </div>
+            <input type="hidden" name="sub" id="sub" placeholder="sub" value="<%= data.sub %>" required>
+            <input type="hidden" name="name" id="name" placeholder="name" value="<%= data.name %>" required>
+            <input type="hidden" name="picture" id="picture" placeholder="picture" value="<%= data.picture %>" required>
+            <p class="match">Status: <span id="status">Menunggu dikirim</span></p>
+            <input type="text" name="nickname"  id="nickname" placeholder="Nickname" required">
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="password" name="password-confirm" id="password-confirm" placeholder="Password confirm" required>
+            <input type="submit" value="create">
+        </form>
+    </div>
+    <script>
+        const form = document.getElementById('form')
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault()
+            if (document.getElementById('password').value === document.getElementById('password-confirm').value) {
+                document.getElementById('status').textContent = 'password cocok'
+                document.getElementById('status').style.color = '#adff2f'
+
+                const data = {
+                    sub: document.getElementById('sub').value,
+                    name: document.getElementById('name').value,
+                    picture: document.getElementById('picture').value,
+                    nickname: document.getElementById('nickname').value,
+                    password: document.getElementById('password').value,
+                    rank: 'Member',
+                }
+
+                const options = {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {'Content-Type': 'application/json'}
+                }
+
+                await fetch(`https://x6todo.herokuapp.com/create-account`, options).then(res => res.json()).then(res => {
+                    form.reset()
+                })
+            } else {
+                document.getElementById('status').textContent = 'password tidak cocok'
+                document.getElementById('status').style.color = '#774360'
+            }
+        })
+    </script>
+</body>
+</html>

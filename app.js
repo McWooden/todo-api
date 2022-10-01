@@ -2,7 +2,17 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const passport = require('passport');
+const FacebookStrategy = require('passport-facebook');
+const session = require('express-session')
+require('./auth')
 
+const url = 'https://x6todo.herokuapp.com'
+const urlLocal = 'http://localhost:3000'
+
+function isLoggedin (req, res, next) {
+    req.user ? next() : res.sendStatus(401)
+}
 const port = process.env.PORT || 3000
 
 // connect db
@@ -15,6 +25,15 @@ app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.json({limit: '1mb'}))
+app.use(session({
+    secret: 'aku udin',
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.set("view engine", "ejs");
+
 
 // schema
 const Task = mongoose.model('Task', {
@@ -35,6 +54,14 @@ const Twit = mongoose.model('Twit', {
     time: String,
     color: String
 })
+const UserSchema = mongoose.model('User', {
+    sub: String,
+    name: String,
+    picture: String,
+    nickname: String,
+    password: String,
+    rank: String
+})
 
 // roles
 const swapper = {
@@ -51,6 +78,40 @@ const monthName = ['Januari','Februari','Maret','April','Mei','Juni','Juni','Agu
 
 app.put('/x6/title', (req, res) => {
     res.send({title: swapper[req.body.pass] || 'Guest'})
+})
+
+app.get('/google', (req, res) => {
+    res.render('register')
+})
+app.get('/auth/google', async (req, res) => {
+    await passport.authenticate('google', { scope: ['profile'] })
+})
+app.get('/protected', isLoggedin, (req, res) => {
+    res.render('create-account', {data: req.user._json})
+})
+app.get('/auth/failure', (req, res) => {
+    res.send('Somenthing wrong...')
+})
+app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login', successRedirect: '/protected' }))
+app.get('/find-account/:nickname', async (req, res) => {
+    const user = await UserSchema.findOne({nickname: req.params.nickname})
+    if (user) {
+        res.send({msg: 'notAvaible'})
+    } else {
+        res.send({msg: 'avaible'})
+    }
+})
+app.post('/create-account', (req, res) => {
+    let user = new UserSchema({
+        sub: req.body.sub,
+        name: req.body.name,
+        picture: req.body.picture,
+        nickname: req.body.nickname,
+        password: req.body.password,
+        rank: 'Member'
+    })
+    user.save()
+    res.redirect('https://mcwooden.github.io/todo/profile')
 })
 
 // find all

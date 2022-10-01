@@ -5,18 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main menu</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/card.css">
-    <link rel="stylesheet" href="css/alert.css">
-    <link rel="shortcut icon" href="img/favico.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://mcwooden.github.io/todo/style.css">
+    <link rel="stylesheet" href="https://mcwooden.github.io/todo/css/header.css">
+    <link rel="stylesheet" href="https://mcwooden.github.io/todo/css/navbar.css">
+    <link rel="stylesheet" href="https://mcwooden.github.io/todo/css/card.css">
+    <link rel="stylesheet" href="https://mcwooden.github.io/todo/css/alert.css">
+    <link rel="shortcut icon" href="https://mcwooden.github.io/todo/img/favico.png" type="image/x-icon">
 </head>
 <body>
-    <div class="quotes" id="trivia">
-        <p id="quote"></p>
-        <p id="author"></p>
-    </div>
     <!-- header -->
     <header id="header">
         <p id="greet"></p>
@@ -33,46 +29,30 @@
     
     <!-- body -->
     <section>
-        <div class="container belum" id="container-belum">
-            <p class="main-menu">Main menu</p>
-            <div id="belum">
-                <a href="https://mcwooden.github.io/todo/">
-                    <div class="card">
-                        <div class="card-text">
-                            <p>Your main task</p>
-                            <p class="text-time">https://mcwooden.github.io/todo/</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div id="sudah">
-                <a href="https://mcwooden.github.io/todo/x6" style="text-decoration: none;">
-                    <div class="card">
-                        <div class="card-text">
-                            <p>X-6 main task</p>
-                            <p class="text-time">https://mcwooden.github.io/todo/x6</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <a href="#" onclick="signOut();">Sign out</a>
     </section>
 
     <!-- footer -->
     <footer id="footer">
-        <p><a target="_blank" href="https://huddin.showwcase.com/">McWooden</a> | Main menu</p>
+        <p><a target="_blank" href="https://huddin.showwcase.com/">McWooden</a> | Login</p>
     </footer>
-    <nav id="nav">
-        <div class="link">
-            <a href="#container-belum"><img src="img/check-solid.svg"></a>
-            <a href="#header"><img src="img/angle-up-solid.svg" alt=""></a>
-            <div>
-                <button id="btnUpdate"><img src="img/floppy-disk-solid.svg"></button>
-                <button type="submit" form="form" id="buttonToSubmit"><img src="img/plus-solid.svg" alt="" id="submitImg"></button>
-            </div>
-        </div>
-    </nav>
     <div id="alert"></div>
-    <script src="js/script.js"></script>
+    <script src="https://mcwooden.github.io/todo/script.js"></script>
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+            console.log('User signed out.');
+            });
+        }
+    </script>
 </body>
 </html>
