@@ -45,6 +45,7 @@ const Task = mongoose.model('Task', {
     selesai: Boolean
 })
 const Twit = mongoose.model('Twit', {
+    picture: String,
     nickname: String,
     isi: String,
     tag: String,
@@ -134,6 +135,7 @@ app.post('/x6', (req, res) => {
 })
 app.post('/x6/twit', (req, res) => {
         let twit = new Twit({
+            picture: req.body.picture,
             nickname: req.body.nickname,
             title: req.body.title,
             isi: req.body.isi,
