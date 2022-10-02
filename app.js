@@ -61,16 +61,6 @@ const UserSchema = mongoose.model('User', {
     password: String,
     rank: String
 })
-// roles
-const swapper = {
-    akuudin: 'Owner',
-    imadmin: 'Admin',
-    kelasx6: 'X-6'
-}
-const admin = {
-    akuudin: 'Owner',
-    imadmin: 'Admin',
-}
 // more option
 const monthName = ['Januari','Februari','Maret','April','Mei','Juni','Juni','Agustus','September','Oktober','November','November']
 
@@ -130,9 +120,6 @@ app.get('/x6/twit', (req, res) => {
 
 // create
 app.post('/x6', (req, res) => {
-    if (!admin.hasOwnProperty(req.body.token)) {
-        return res.send({msg: `${req.body.token} bukan admin`})
-    } else {
         let task = new Task({
             tugas: req.body.tugas,
             deskripsi: req.body.deskripsi,
@@ -143,13 +130,9 @@ app.post('/x6', (req, res) => {
             selesai: false
         })
         task.save()
-        res.send({msg: `item telah ditambah oleh ${admin[req.body.token]}`})
-    }
+        res.send({msg: `item telah ditambah`})
 })
 app.post('/x6/twit', (req, res) => {
-    if (!admin.hasOwnProperty(req.body.token)) {
-        return res.send({msg: `${req.body.token} bukan admin`})
-    } else {
         let twit = new Twit({
             nickname: req.body.nickname,
             title: req.body.title,
@@ -160,15 +143,11 @@ app.post('/x6/twit', (req, res) => {
             color: '#31364c'
         })
         twit.save()
-        res.send({msg: `Twit telah ditambah oleh ${admin[req.body.token]}`})
-    }
+        res.send({msg: `Twit telah ditambah oleh`})
 })
 
 // update
 app.put('/x6', async (req, res) => {
-    if (!admin.hasOwnProperty(req.body.token)) {
-        return res.send({msg: `${req.body.token} bukan admin`})
-    } else {
         await Task.updateOne({_id: req.body.id}, { 
             $set: {
                 tugas: req.body.tugas,
@@ -178,42 +157,29 @@ app.put('/x6', async (req, res) => {
                 berakhir: req.body.berakhir,
             }
         })
-        res.send({msg: `item telah diubah oleh ${admin[req.body.token]}`})
-    }    
+        res.send({msg: `item telah diubah oleh`})
 })
 
 // delete
 app.delete('/x6/:id', async (req, res) => {
-    if (!admin.hasOwnProperty(req.body.token)) {
-        return res.send({msg: `${req.body.token} bukan admin`})
-    } else {
         await Task.findByIdAndDelete(req.params.id)
-        res.send({msg: `item telah dihapus oleh ${admin[req.body.token]}`})
-    }
+        res.send({msg: `item telah dihapus oleh`})
 })
 
 // reverse
 app.put('/x6/reverse', async (req, res) => {
-    if (!swapper.hasOwnProperty(req.body.token)) {
-        return res.send({msg: `password "${req.body.token}" tidak valid`})
-    } else {
         await Task.updateOne({_id: req.body.id}, {
             $set: {
                 selesai: !req.body.selesai
             }
         })
-        return res.send({msg: `berhasil dibalik oleh ${swapper[req.body.token]}`})
-    }
+        return res.send({msg: `berhasil dibalik oleh`})
 })
 
 // find task
 app.put('/x6/:id', async (req, res) => {
-    if (!admin.hasOwnProperty(req.body.token)) {
-        return res.send({msg: `${req.body.token} bukan admin`})
-    } else {
         const task = await Task.findById(req.params.id)
         res.send(task)
-    }
 })
 
 
