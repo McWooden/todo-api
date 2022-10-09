@@ -134,7 +134,6 @@ app.post('/x6', (req, res) => {
         res.send({msg: `item telah ditambah`})
 })
 app.post('/x6/twit', (req, res) => {
-    const getLocaleTime = new Date().toLocaleTimeString().split(':')
     let twit = new Twit({
         picture: req.body.picture,
         nickname: req.body.nickname,
@@ -142,7 +141,7 @@ app.post('/x6/twit', (req, res) => {
         isi: req.body.isi,
         tag: req.body.tag,
         date: `${new Date().getDate()} ${monthName[new Date().getMonth()]}`,
-        time: `${getLocaleTime[0]}.${getLocaleTime[1]}`,
+        time: req.body.time,
         color: '#31364c'
     })
     twit.save()
