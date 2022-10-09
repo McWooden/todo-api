@@ -134,18 +134,19 @@ app.post('/x6', (req, res) => {
         res.send({msg: `item telah ditambah`})
 })
 app.post('/x6/twit', (req, res) => {
-        let twit = new Twit({
-            picture: req.body.picture,
-            nickname: req.body.nickname,
-            title: req.body.title,
-            isi: req.body.isi,
-            tag: req.body.tag,
-            date: `${new Date().getDate()} ${monthName[new Date().getMonth()]}`,
-            time: `${new Date().getHours()}.${new Date().getMinutes()}`,
-            color: '#31364c'
-        })
-        twit.save()
-        res.send({msg: `Twit telah ditambah oleh`})
+    const getLocaleTime = new Date().toLocaleTimeString().split(':')
+    let twit = new Twit({
+        picture: req.body.picture,
+        nickname: req.body.nickname,
+        title: req.body.title,
+        isi: req.body.isi,
+        tag: req.body.tag,
+        date: `${new Date().getDate()} ${monthName[new Date().getMonth()]}`,
+        time: `${getLocaleTime[0]}.${getLocaleTime[1]}`,
+        color: '#31364c'
+    })
+    twit.save()
+    res.send({msg: `Twit telah ditambah oleh`})
 })
 
 // update
