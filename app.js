@@ -173,7 +173,7 @@ app.put('/x6/twit/addLike', async (req, res) => {
 app.delete('/x6/twit/removeLike', async (req, res) => {
     const data = await Twit.findOneAndUpdate({_id: req.body.id}, {
         $pull: {
-            "like": "newUser"
+            "like": req.body.nickname
         }
     })
     res.send({msg: data})
