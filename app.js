@@ -51,8 +51,8 @@ const Twit = mongoose.model('Twit', {
     tag: String,
     title: String,
     date: String,
-    time: String,
-    color: String
+    color: String,
+    like: [String]
 })
 const UserSchema = mongoose.model('User', {
     sub: String,
@@ -63,7 +63,7 @@ const UserSchema = mongoose.model('User', {
     rank: String
 })
 // more option
-const monthName = ['Januari','Februari','Maret','April','Mei','Juni','Juni','Agustus','September','Oktober','November','November']
+const monthName = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sept','Okt','Nov','Des']
 
 app.put('/x6/title', (req, res) => {
     res.send({title: swapper[req.body.pass] || 'Guest'})
@@ -141,8 +141,8 @@ app.post('/x6/twit', (req, res) => {
         isi: req.body.isi,
         tag: req.body.tag,
         date: `${new Date().getDate()} ${monthName[new Date().getMonth()]}`,
-        time: req.body.time,
-        color: '#31364c'
+        color: '#31364c',
+        like: req.body.nickname
     })
     twit.save()
     res.send({msg: `Twit telah ditambah oleh`})
@@ -160,6 +160,14 @@ app.put('/x6', async (req, res) => {
             }
         })
         res.send({msg: `item telah diubah oleh`})
+})
+app.put('/x6/twit/addLike', async (req, res) => {
+    const data = await Twit.findOneAndUpdate({_id: req.body.id}, {
+        $addToSet: {
+            like: req.body.nickname
+        }
+    })
+    res.send({msg: data})
 })
 
 // delete
