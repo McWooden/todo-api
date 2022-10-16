@@ -143,8 +143,6 @@ app.post('/x6/twit', (req, res) => {
         tag: req.body.tag,
         date: `${new Date().getDate()} ${monthName[new Date().getMonth()]}`,
         color: '#31364c',
-        like: req.body.nickname,
-        comment: []
     })
     twit.save()
     res.send({msg: `Twit telah ditambah oleh`})
@@ -181,8 +179,8 @@ app.put('/x6/twit/addLike', async (req, res) => {
     })
     res.send({msg: 'like'})
 })
-app.delete('/x6/twit/removeLike', async (req, res) => {
-    const data = await Twit.findOneAndUpdate({_id: req.body.id}, {
+app.put('/x6/twit/deleteLike', async (req, res) => {
+    const data = await Twit.findByIdAndUpdate(req.body.id, {
         $pull: {
             "like": req.body.nickname
         }
