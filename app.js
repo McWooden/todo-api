@@ -163,6 +163,16 @@ app.put('/x6', async (req, res) => {
         })
         res.send({msg: `item telah diubah oleh`})
 })
+app.put('/x6/twit', async (req, res) => {
+        await Twit.updateOne({_id: req.body.id}, { 
+            $set: {
+                isi: req.body.isi,
+                tag: req.body.tag,
+                date: `${new Date().getDate()} ${monthName[new Date().getMonth()]} (diedit)`
+            }
+        })
+        res.send({msg: `item telah diubah oleh`})
+})
 app.put('/x6/twit/addLike', async (req, res) => {
     await Twit.findOneAndUpdate({_id: req.body.id}, {
         $addToSet: {
@@ -200,13 +210,16 @@ app.put('/x6/reverse', async (req, res) => {
         return res.send({msg: `berhasil dibalik oleh`})
 })
 
-// find task
+// find task and twit
 app.put('/x6/:id', async (req, res) => {
         const task = await Task.findById(req.params.id)
         res.send(task)
 })
 
-
+app.put('/x6/twit/:id', async (req, res) => {
+        const twit = await Twit.findById(req.params.id)
+        res.send(twit)
+})
 
 app.listen(port, () => {
     console.log(`App listening on http://localhost:${port}/`)
