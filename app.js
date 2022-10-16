@@ -181,6 +181,10 @@ app.delete('/x6/twit/removeLike', async (req, res) => {
 })
 
 // delete
+app.delete('/x6/twit', async (req, res) => {
+        await Twit.findByIdAndDelete(req.body.id)
+        res.send({msg: `item telah dihapus`})
+})
 app.delete('/x6/:id', async (req, res) => {
         await Task.findByIdAndDelete(req.params.id)
         res.send({msg: `item telah dihapus oleh`})
