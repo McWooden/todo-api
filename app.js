@@ -40,7 +40,7 @@ const Task = mongoose.model('Task', {
     deskripsi: String,
     color: String,
     mulai: String,
-    berakhir: String,
+    tipe: String,
     by: String,
     selesai: Boolean
 })
@@ -127,7 +127,7 @@ app.post('/x6', (req, res) => {
             deskripsi: req.body.deskripsi,
             color: req.body.color,
             mulai: req.body.mulai,
-            berakhir: req.body.berakhir,
+            tipe: req.body.tipe,
             by: req.body.by,
             selesai: false
         })
@@ -156,7 +156,7 @@ app.put('/x6', async (req, res) => {
                 deskripsi: req.body.deskripsi,
                 color: req.body.color,
                 mulai: req.body.mulai,
-                berakhir: req.body.berakhir,
+                tipe: req.body.tipe,
             }
         })
         res.send({msg: `item telah diubah oleh`})
