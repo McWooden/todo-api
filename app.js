@@ -69,10 +69,6 @@ const monthName = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sept','Okt',
 app.put('/x6/title', (req, res) => {
     res.send({title: swapper[req.body.pass] || 'Guest'})
 })
-
-app.get('/google', (req, res) => {
-    res.render('register')
-})
 app.get('/auth/google', async (req, res) => {
     await passport.authenticate('google', { scope: ['profile'] })
 })
@@ -91,7 +87,16 @@ app.get('/find-account/:nickname', async (req, res) => {
         res.send({msg: 'avaible'})
     }
 })
-app.post('/create-account', (req, res) => {
+app.post('/create-account', async (req, res) => {
+    const data = await UserSchema.findOneAndUpdate({sub: req.body.sub}, {
+        $set: {
+            name: req.body.name,
+            nickname: req.body.nickname,
+            picture: req.body.picture,
+            password: req.body.password
+        }
+    })
+    if (data) return res.send({msg: 'akun selesai diupdate'})
     
     let user = new UserSchema({
         sub: req.body.sub,
@@ -104,6 +109,7 @@ app.post('/create-account', (req, res) => {
     user.save()
     res.send({msg: 'akun selesai dibuat'})
 })
+
 app.put('/get-my-profile', async (req, res) => {
     const user = await UserSchema.findOne({nickname: req.body.nickname, password: req.body.password})
     res.send(user)
