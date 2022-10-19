@@ -82,7 +82,7 @@ app.get('/protected', isLoggedin, (req, res) => {
 app.get('/auth/failure', (req, res) => {
     res.send('Somenthing wrong...')
 })
-app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/google', successRedirect: '/protected' }))
+app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/', successRedirect: '/protected' }))
 app.get('/find-account/:nickname', async (req, res) => {
     const user = await UserSchema.findOne({nickname: req.params.nickname})
     if (user) {
@@ -217,6 +217,12 @@ app.put('/x6/:id', async (req, res) => {
 app.put('/x6/twit/:id', async (req, res) => {
         const twit = await Twit.findById(req.params.id)
         res.send(twit)
+})
+
+app.get('/', (req, res) => {
+    UserSchema.find({}, (err, users) => {
+        res.render('index', {users})
+    })
 })
 
 app.listen(port, () => {
