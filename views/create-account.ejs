@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #383e57;
+            background-color: #fff;
         }
         .container {
             box-shadow: none;
@@ -54,7 +54,7 @@
             display: flex;
             gap: .5em;
             margin-bottom: 10px;
-            background-color: #242736;
+            background-color: #2b2f42;
             padding: .25em;
             border-radius: 5px;
         }
@@ -93,11 +93,11 @@
             <input type="hidden" name="sub" id="sub" placeholder="sub" value="<%= data.sub %>" required>
             <input type="hidden" name="name" id="name" placeholder="name" value="<%= data.name %>" required>
             <input type="hidden" name="picture" id="picture" placeholder="picture" value="<%= data.picture %>" required>
-            <p class="match">Status: <span id="status">Menunggu dikirim</span></p>
-            <input type="text" name="nickname"  id="nickname" placeholder="Nickname" required">
+            <p class="match">Status: <span id="status">berjalan dengan baik</span></p>
+            <input type="text" name="nama pengguna"  id="nickname" placeholder="Nickname" required">
             <input type="password" name="password" id="password" placeholder="Password" required>
-            <input type="password" name="password-confirm" id="password-confirm" placeholder="Password confirm" required>
-            <input type="submit" value="create">
+            <input type="password" name="konfirmasi password" id="password-confirm" placeholder="Password confirm" required>
+            <input type="submit" value="kirim">
         </form>
     </div>
     <script>

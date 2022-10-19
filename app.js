@@ -92,6 +92,7 @@ app.get('/find-account/:nickname', async (req, res) => {
     }
 })
 app.post('/create-account', (req, res) => {
+    
     let user = new UserSchema({
         sub: req.body.sub,
         name: req.body.name,
