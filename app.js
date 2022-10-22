@@ -208,6 +208,16 @@ app.put('/x6/twit/addComment', async (req, res) => {
     })
     res.send({msg: data})
 })
+app.put('/x6/twit/deleteComment', async (req, res) => {
+    const data = await Twit.findByIdAndUpdate(req.body.id, {
+        $pull: {
+            'twitComment': {
+                '_id': req.body.commentId
+            }
+        }
+    })
+    res.send({msg: data})
+})
 
 // delete
 app.delete('/x6/twit', async (req, res) => {
