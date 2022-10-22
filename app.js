@@ -53,7 +53,10 @@ const Twit = mongoose.model('Twit', {
     date: String,
     color: String,
     like: [String],
-    comment: [String]
+    twitComment: [{
+        commentNickname: String,
+        commentBody: String
+    }]
 })
 const UserSchema = mongoose.model('User', {
     sub: String,
@@ -190,6 +193,17 @@ app.put('/x6/twit/deleteLike', async (req, res) => {
     const data = await Twit.findByIdAndUpdate(req.body.id, {
         $pull: {
             "like": req.body.nickname
+        }
+    })
+    res.send({msg: data})
+})
+app.put('/x6/twit/addComment', async (req, res) => {
+    const data = await Twit.findByIdAndUpdate(req.body.id, {
+        $addToSet: {
+            "twitComment": {
+                "commentNickname": req.body.commentNickname,
+                "commentBody": req.body.commentBody
+            }
         }
     })
     res.send({msg: data})
