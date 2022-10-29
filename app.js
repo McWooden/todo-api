@@ -42,6 +42,7 @@ const Task = mongoose.model('Task', {
     mulai: String,
     tipe: String,
     by: String,
+    selesaiCount: [String],
     selesai: Boolean
 })
 const Twit = mongoose.model('Twit', {
@@ -132,6 +133,8 @@ app.get('/x6/twit', (req, res) => {
 
 // create
 app.post('/x6', (req, res) => {
+    if (req.body.rank == 'Admin' || req.body.rank == 'Owner') {
+
         let task = new Task({
             tugas: req.body.tugas,
             deskripsi: req.body.deskripsi,
@@ -143,6 +146,10 @@ app.post('/x6', (req, res) => {
         })
         task.save()
         res.send({msg: `item telah ditambah`})
+    } else {
+        res.send({msg: `anda bukan manager`})
+    }
+    
 })
 app.post('/x6/twit', (req, res) => {
     let twit = new Twit({
@@ -180,6 +187,23 @@ app.put('/x6/twit', async (req, res) => {
             }
         })
         res.send({msg: `item telah diubah oleh`})
+})
+// nambah array
+app.put('/x6/addSelesai', async (req, res) => {
+    await Task.findOneAndUpdate({_id: req.body.id}, {
+        $addToSet: {
+            "selesaiCount": req.body.nickname
+        }
+    })
+    res.send({msg: 'selesai'})
+})
+app.put('/x6/deleteSelesai', async (req, res) => {
+    await Task.findOneAndUpdate({_id: req.body.id}, {
+        $pull: {
+            "selesaiCount": req.body.nickname
+        }
+    })
+    res.send({msg: 'tunda'})
 })
 app.put('/x6/twit/addLike', async (req, res) => {
     await Twit.findOneAndUpdate({_id: req.body.id}, {
