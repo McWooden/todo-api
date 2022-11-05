@@ -163,7 +163,7 @@ app.post('/x6', (req, res) => {
     }
 })
 
-app.post('/x6/image', upload.single('image'), async (req, res) => {
+app.post('/x6/img', upload.single('image'), async (req, res) => {
     const resizeImage = sharp(req.file.buffer).resize({
         height: 1920,
         width: 1080,
