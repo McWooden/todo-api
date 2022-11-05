@@ -276,6 +276,15 @@ app.put('/x6/twit/deleteComment', async (req, res) => {
 })
 
 // delete
+app.delete('/x6/image', async (req, res) => {
+    await Task.findByIdAndUpdate(req.body.id, {
+        $pull: {
+            'images': req.body.path
+        }
+    })
+    await supabase.storage.from('tugas').remove([req.body.path])
+    res.send({msg: `item telah dihapus oleh`})
+})
 app.delete('/x6/twit', async (req, res) => {
         await Twit.findByIdAndDelete(req.body.id)
         res.send({msg: `item telah dihapus`})
