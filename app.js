@@ -6,6 +6,18 @@ const passport = require('passport');
 const session = require('express-session')
 require('./auth')
 
+const multer = require('multer')
+const storage = multer.memoryStorage()
+const upload = multer({storage: storage})
+
+const sharp = require('sharp')
+
+const { createClient } = require('@supabase/supabase-js')
+const supabase = createClient(
+    'https://nvhibgshtzxykdbwmats.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52aGliZ3NodHp4eWtkYndtYXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjcyMDkwMDIsImV4cCI6MTk4Mjc4NTAwMn0.IpZgZO5x4KTUzlf6BshNh7O1W2N9Q57mvHdungp1rEQ',
+)
+
 const url = 'https://x6todo.herokuapp.com'
 const urlLocal = 'http://localhost:3000'
 
@@ -15,15 +27,16 @@ function isLoggedin (req, res, next) {
 const port = process.env.PORT || 3000
 
 // connect db
-const mongoose = require('mongoose')
-mongoose.connect(`mongodb+srv://udin:udin123@cluster0.5ieghid.mongodb.net/todoapp`)
+const mongoose = require('mongoose');
+mongoose.connect(`mongodb+srv://udin:udin123@cluster0.5ieghid.mongodb.net/todoapp`).then(()=>console.log('connected to atlas'))
 
 // middleware
 app.use(cors())
 app.use(express.static('public'))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.json({limit: '1mb'}))
+
 app.use(session({
     secret: 'aku udin',
     resave: false,
@@ -31,8 +44,8 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.set("view engine", "ejs");
 
+app.set("view engine", "ejs")
 
 // schema
 const Task = mongoose.model('Task', {
@@ -43,7 +56,8 @@ const Task = mongoose.model('Task', {
     tipe: String,
     by: String,
     selesaiCount: [String],
-    selesai: Boolean
+    selesai: Boolean,
+    images: [String]
 })
 const Twit = mongoose.model('Twit', {
     picture: String,
@@ -70,9 +84,6 @@ const UserSchema = mongoose.model('User', {
 // more option
 const monthName = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sept','Okt','Nov','Des']
 
-app.put('/x6/title', (req, res) => {
-    res.send({title: swapper[req.body.pass] || 'Guest'})
-})
 app.get('/auth/google', async (req, res) => {
     await passport.authenticate('google', { scope: ['profile'] })
 })
@@ -113,7 +124,6 @@ app.post('/create-account', async (req, res) => {
     user.save()
     res.send({msg: 'akun selesai dibuat'})
 })
-
 app.put('/get-my-profile', async (req, res) => {
     const user = await UserSchema.findOne({nickname: req.body.nickname, password: req.body.password})
     res.send(user)
@@ -131,10 +141,10 @@ app.get('/x6/twit', (req, res) => {
     })
 })
 
+
 // create
 app.post('/x6', (req, res) => {
     if (req.body.rank == 'Admin' || req.body.rank == 'Owner') {
-
         let task = new Task({
             tugas: req.body.tugas,
             deskripsi: req.body.deskripsi,
@@ -142,15 +152,37 @@ app.post('/x6', (req, res) => {
             mulai: req.body.mulai,
             tipe: req.body.tipe,
             by: req.body.by,
-            selesai: false
+            selesai: false,
         })
         task.save()
-        res.send({msg: `item telah ditambah`})
+        console.log(task)
+        res.send({msg: task})
     } else {
+        console.log(req.body)
         res.send({msg: `anda bukan manager`})
     }
-    
 })
+
+app.post('/x6/image', upload.single('image'), async (req, res) => {
+    const resizeImage = sharp(req.file.buffer).resize({
+        height: 1920,
+        width: 1080,
+        fit: "contain"
+    })
+    const { data, error } = await supabase.storage.from('tugas')
+    .upload(`${req.body.id}/${req.body.nickname}-${+new Date}`, resizeImage, {
+        contentType: req.file.mimetype,
+        cacheControl: '3600',
+        upsert: true
+    })
+    await Task.findByIdAndUpdate(req.body.id, {
+        $addToSet: {
+            "images": data.path
+        }
+    })
+    res.send({msg: data, error})
+})
+
 app.post('/x6/twit', (req, res) => {
     let twit = new Twit({
         picture: req.body.picture,
@@ -250,6 +282,8 @@ app.delete('/x6/twit', async (req, res) => {
 })
 app.delete('/x6/:id', async (req, res) => {
         await Task.findByIdAndDelete(req.params.id)
+        const { data, error } = await supabase.storage.from('tugas').remove(req.body.images)
+        console.log(req.params.id, data, error)
         res.send({msg: `item telah dihapus oleh`})
 })
 
@@ -278,6 +312,11 @@ app.get('/', (req, res) => {
     UserSchema.find({}, (err, users) => {
         res.render('index', {users})
     })
+})
+
+app.get('/getPublicUrl', (req, res) => {
+    const { data } = supabase.storage.from('tugas').getPublicUrl('')
+    res.send(data)
 })
 
 app.listen(port, () => {
