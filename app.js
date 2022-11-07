@@ -57,7 +57,12 @@ const Task = mongoose.model('Task', {
     by: String,
     selesaiCount: [String],
     selesai: Boolean,
-    images: [String]
+    images: [String],
+    tugasComment: [{
+        nickname: String,
+        isi: String,
+        time: String
+    }]
 })
 const Twit = mongoose.model('Twit', {
     picture: String,
@@ -251,6 +256,30 @@ app.put('/x6/twit/deleteLike', async (req, res) => {
             "like": req.body.nickname
         }
     })
+    res.send({msg: data})
+})
+app.put('/x6/addComment', async (req, res) => {
+    const data = await Task.findByIdAndUpdate(req.body.id, {
+        $addToSet: {
+            "tugasComment": {
+                "nickname": req.body.nickname,
+                "isi": req.body.isi,
+                "time": req.body.time
+            }
+        }
+    })
+    console.log(req.body)
+    res.send({msg: data})
+})
+app.put('/x6/deleteComment', async (req, res) => {
+    const data = await Task.findByIdAndUpdate(req.body.id, {
+        $pull: {
+            'tugasComment': {
+                '_id': req.body.commentId
+            }
+        }
+    })
+    console.log(req.body)
     res.send({msg: data})
 })
 app.put('/x6/twit/addComment', async (req, res) => {
