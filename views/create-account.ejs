@@ -72,6 +72,7 @@
         form input[type="submit"] {
             background-color: #277BC0;
             cursor: pointer;
+            box-shadow: #277bc076 0px 8px 24px;
         }
         @media screen and (min-width: 512px) {
             .container {
@@ -87,13 +88,13 @@
                 <img src="<%= data.picture %>">
                 <div>
                     <p><%= data.name %></p>
-                    <p>Member</p>
+                    <p>Google</p>
                 </div>
             </div>
             <input type="hidden" name="sub" id="sub" placeholder="sub" value="<%= data.sub %>" required>
             <input type="hidden" name="name" id="name" placeholder="name" value="<%= data.name %>" required>
             <input type="hidden" name="picture" id="picture" placeholder="picture" value="<%= data.picture %>" required>
-            <p class="match">Status: <span id="status">berjalan dengan baik</span></p>
+            <p class="match">Status: <span id="status"></span></p>
             <input type="text" name="nama pengguna"  id="nickname" placeholder="Nickname" required">
             <input type="password" name="password" id="password" placeholder="Password" required>
             <input type="password" name="konfirmasi password" id="password-confirm" placeholder="Password confirm" required>

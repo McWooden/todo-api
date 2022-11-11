@@ -133,6 +133,34 @@ app.put('/get-my-profile', async (req, res) => {
     const user = await UserSchema.findOne({nickname: req.body.nickname, password: req.body.password})
     res.send(user)
 })
+app.get('/adminroom', (req, res) => {
+    res.render('adminroom')
+})
+app.put('/adminroom', async (req, res) => {
+    if (req.body.password.match(/din/i)) {
+        await UserSchema.findOneAndUpdate({sub: req.body.userID}, {
+            $set: {
+                "rank": 'Admin'
+            }
+        })
+        res.send({msg: 'Berhasil!'})
+    } else {
+        res.send({msg: 'password Salah'})
+    }
+})
+app.delete('/adminroom', async (req, res) => {
+    if (req.body.password.match(/din/i)) {
+        await UserSchema.findOneAndUpdate({sub: req.body.userID}, {
+            $set: {
+                "rank": 'Member'
+            }
+        })
+        res.send({msg: 'Berhasil!'})
+    } else {
+        res.send({msg: 'password Salah'})
+    }
+})
+
 
 // find all
 app.get('/x6', (req, res) => {

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Admin Room</title>
+    <link rel="stylesheet" href="https://mcwooden.github.io/todo/style.css">
+    <link rel="stylesheet" href="https://mcwooden.github.io/todo/css/header.css">
+    <link rel="stylesheet" href="https://mcwooden.github.io/todo/css/card.css">
+    <link rel="shortcut icon" href="https://mcwooden.github.io/todo/img/favico.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .mode {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 1fr;
+        }
+        .mode p {
+            background-color: #191b26;
+            padding: 1em 2em;
+            flex: 1;
+            font-size: calc(.25vw + .45em);
+            border-radius: 5px;
+        }
+        .select {
+            background-color: #277bc0d0 !important;
+            box-shadow: #277bc05f 0px 10px 24px;
+        }
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mode">
+        <p class="jadikan mode-button select" data-form="addAdmin">Jadikan Admin</p>
+        <p class="berhentikan mode-button" data-form="removeAdmin">Berhentikan Sebagai Admin</p>
+    </div>
+    <div class="container">
+        <form id="addAdmin" data-req="put">
+            <input type="number" name="userID" placeholder="User ID" required autocomplete="off">
+            <input type="text" name="password" placeholder="Admin Password" required autocomplete="off">
+            <input type="submit" value="simpan" name="btn">
+        </form>
+        <form id="removeAdmin" data-req="delete" class="hide">
+            <input type="number" name="userID" placeholder="User ID" required autocomplete="off">
+            <input type="text" name="password" placeholder="Admin Password" required autocomplete="off">
+            <input type="submit" value="berhentikan" name="btn">
+        </form>
+    </div>
+    <script>
+        const add = document.getElementById('addAdmin')
+        const remove = document.getElementById('removeAdmin')
+
+        const form = document.querySelectorAll('form')
+        const modeButton = document.querySelectorAll('.mode-button')
+        modeButton.forEach(element => {
+            element.addEventListener('click', (e) => {
+                clearSelection()
+                e.target.classList.add('select')
+                document.getElementById(e.target.dataset.form).classList.remove('hide')
+            })
+        })
+        function clearSelection() {
+            modeButton.forEach(element => element.classList.remove('select'))
+            form.forEach(element => element.classList.add('hide'))
+        }
+        form.forEach(element => {
+            element.addEventListener('submit', (e) => {
+                e.preventDefault()
+                e.target.btn.style.opacity = '.5'
+                const data = {
+                    userID: e.target.userID.value,
+                    password: e.target.password.value
+                }
+                fetch('/adminroom', {
+                    method: e.target.dataset.req,
+                    body: JSON.stringify(data),
+                    headers: {'Content-Type': 'application/json'}
+                }).then(res => res.json()).then((res) => {
+                    e.target.btn.style.opacity = '1'
+                    e.target.btn.value = res.msg
+                }).catch(() => {
+                    e.target.btn.style.opacity = '1'
+                    e.target.btn.value = 'data error'
+                })
+            })
+        })
+    </script>
+</body>
+</html>
