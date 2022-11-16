@@ -28,7 +28,7 @@ const port = process.env.PORT || 3000
 
 // connect db
 const mongoose = require('mongoose');
-mongoose.connect(`mongodb+srv://udin:udin123@cluster0.5ieghid.mongodb.net/todoapp`).then(()=>console.log('connected to atlas'))
+mongoose.connect(`mongodb+srv://udin:udin123@cluster0.5ieghid.mongodb.net/todoapp`).then(()=>console.log('connected to atlas')).catch(()=>console.log('error connect to atlas'))
 
 // middleware
 app.use(cors())
@@ -85,6 +85,10 @@ const UserSchema = mongoose.model('User', {
     nickname: String,
     password: String,
     rank: String
+})
+const Jadwal = mongoose.model('Jadwal', {
+    title: String,
+    image: String
 })
 // more option
 const monthName = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sept','Okt','Nov','Des']
@@ -214,6 +218,33 @@ app.post('/x6/image', upload.single('image'), async (req, res) => {
         }
     })
     res.send({msg: data, error})
+})
+
+app.get('/x6/jadwal', async (req, res) => {
+    const data = await Jadwal.findOne({})
+    res.send(data)
+})
+app.put('/x6/jadwal', upload.single('img'), async (req, res) => {
+    const resizeImage = sharp(req.file.buffer).resize({
+        height: 1920,
+        width: 1080,
+        fit: "contain"
+    })
+    const namaBaru = `jadwal-${+new Date()}`
+    const namaLama = await Jadwal.findOne({title: 'Jadwal'})
+    const { dataMove, errorMove } = await supabase.storage.from('tugas').move(namaLama.image, namaBaru)
+    const { data, error } = await supabase.storage.from('tugas')
+    .upload(namaBaru, resizeImage, {
+        contentType: req.file.mimetype,
+        cacheControl: '3600',
+        upsert: true
+    })
+    await Jadwal.findOneAndUpdate({title: 'Jadwal'}, {
+        $set: {
+            'image': namaBaru
+        }
+    })
+    res.send({msg: 'jadwal diganti'})
 })
 
 app.post('/x6/twit', (req, res) => {
