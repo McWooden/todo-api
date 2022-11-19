@@ -123,7 +123,7 @@ app.post('/create-account', async (req, res) => {
     if (data) return res.send({msg: 'akun selesai diupdate'})
     let userNicknameAvaible = await UserSchema.findOne({nickname: req.body.nickname})
     let userNickname = req.body.nickname
-    if (userNicknameAvaible) userNickname + '#' + new Date().getMilliseconds()
+    if (userNicknameAvaible) userNickname += '#' + new Date().getMilliseconds()
     
     let user = new UserSchema({
         sub: req.body.sub,
