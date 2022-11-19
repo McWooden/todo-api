@@ -121,12 +121,15 @@ app.post('/create-account', async (req, res) => {
         }
     })
     if (data) return res.send({msg: 'akun selesai diupdate'})
+    let userNicknameAvaible = await UserSchema.findOne({nickname: req.body.nickname})
+    let userNickname = req.body.nickname
+    if (userNicknameAvaible) userNickname + '#' + new Date().getMilliseconds()
     
     let user = new UserSchema({
         sub: req.body.sub,
         name: req.body.name,
         picture: req.body.picture,
-        nickname: req.body.nickname,
+        nickname: userNickname,
         password: req.body.password,
         rank: 'Member'
     })
