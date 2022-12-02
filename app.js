@@ -26,7 +26,6 @@ function isLoggedin (req, res, next) {
 }
 const port = process.env.PORT || 3000
 
-// connect db
 const mongoose = require('mongoose');
 mongoose.connect(`mongodb+srv://udin:udin123@cluster0.5ieghid.mongodb.net/todoapp`).then(()=>console.log('connected to atlas')).catch(()=>console.log('error connect to atlas'))
 
