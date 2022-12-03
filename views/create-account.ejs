@@ -124,7 +124,7 @@
                     headers: {'Content-Type': 'application/json',}
                 }
 
-                await fetch(`https://x6todo.herokuapp.com/create-account`, options).then(res => res.json()).then(res => {
+                await fetch(`https://todo-api.cyclic.app/create-account`, options).then(res => res.json()).then(res => {
                     form.reset()
                     window.location = 'https://mcwooden.github.io/todo/x6'
                 })

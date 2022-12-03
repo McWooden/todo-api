@@ -18,7 +18,7 @@ const supabase = createClient(
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52aGliZ3NodHp4eWtkYndtYXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjcyMDkwMDIsImV4cCI6MTk4Mjc4NTAwMn0.IpZgZO5x4KTUzlf6BshNh7O1W2N9Q57mvHdungp1rEQ'
 )
 
-const url = 'https://x6todo.herokuapp.com'
+const url = 'https://todo-api.cyclic.app/'
 const urlLocal = 'http://localhost:3000'
 
 function isLoggedin (req, res, next) {
