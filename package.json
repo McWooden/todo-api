@@ -4,7 +4,7 @@
   "description": "v1.18.2\r     `pop up` menampilkan informasi aksi seperti menambah, menghapus, mengedit, menyimpan diatas kiri layar",
   "main": "script.js",
   "scripts": {
-    "start": "node app",
+    "start": "node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
