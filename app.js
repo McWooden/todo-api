@@ -14,8 +14,8 @@ const sharp = require('sharp')
 
 const { createClient } = require('@supabase/supabase-js')
 const supabase = createClient(
-    'https://nvhibgshtzxykdbwmats.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52aGliZ3NodHp4eWtkYndtYXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjcyMDkwMDIsImV4cCI6MTk4Mjc4NTAwMn0.IpZgZO5x4KTUzlf6BshNh7O1W2N9Q57mvHdungp1rEQ',
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_KEY
 )
 
 const url = 'https://x6todo.herokuapp.com'
@@ -27,7 +27,7 @@ function isLoggedin (req, res, next) {
 const port = process.env.PORT || 3000
 
 const mongoose = require('mongoose');
-mongoose.connect(`mongodb+srv://udin:udin123@cluster0.5ieghid.mongodb.net/todoapp`).then(()=>console.log('connected to atlas')).catch(()=>console.log('error connect to atlas'))
+mongoose.connect(process.env.MONGODB_PASS).then(()=>console.log('connected to atlas')).catch(()=>console.log('error connect to atlas'))
 
 // middleware
 app.use(cors())
